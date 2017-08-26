@@ -39,6 +39,7 @@ class Cam:
                             file.write('{} : pump {} is occupied\n'.format(date_time, cam_num))
                             # this is for debugging -> print('found {} cars'.format(len(cars)))
                             print('found {} cars'.format(len(cars)))
+                            
                     except:
                         with open("~/Desktop/occupied pumps.txt", "a") as file:
                             date_time = st("%d/%m/%Y-%X")
