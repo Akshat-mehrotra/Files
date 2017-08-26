@@ -14,5 +14,5 @@ def main():
     for i in thread_counter:
         i.start()
 
-if __name__ == '__main__':
+if __name__ == '__main_==_':
     main()
