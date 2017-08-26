@@ -8,7 +8,7 @@ from time import strftime as st
 car_cascade = cv2.CascadeClassifier('cars.xml') # define the cascade
 
 						
-pump = '0' #the pump number i.e. the cam number
+pump = '0' #the pump number i.e. the cam number i.e the video feed
 capture = cv2.VideoCapture(pump) #capture the video feed from the pump camera
 
 def main(font, capture, pump,height = 1080, width = 1920):
