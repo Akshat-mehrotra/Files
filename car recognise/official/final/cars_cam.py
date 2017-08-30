@@ -26,13 +26,17 @@ def main(cam_num, feed, coordinates, area):
         if is_feed:
             # print(type(coordinates[0]), type(coordinates[1]), type(coordinates[2]), type(coordinates[3]))
             try:
-                img1 = img[coordinates[0]: coordinates[1], coordinates[2]:coordinates[3],]
+                 img1 = img[coordinates[0]: coordinates[1], coordinates[2]:coordinates[3],]
             except IndexError:
-                print('there was a index error while defining the ROI of the image so the full image has been taken')
+                 print('there was a index error while defining the ROI of the image so the full image has been taken')
+                 img1 = img
+            finally:
+                print('error dfsdafdsfsd')
                 img1 = img
-            # cv2.imshow('img2', img1)
+
             th = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-            cars = car_cascade.detectMultiScale(th, 1.04, 3)
+
+            cars = car_cascade.detectMultiScale(th, 1.14, 4)
 
             if len(cars) > 0 and second_frame != 2:
                 frames.append(cars[0])
@@ -43,7 +47,7 @@ def main(cam_num, feed, coordinates, area):
                 frame_change = check_cord(prv_frame=frames[0], current_frame=frames[1])
                 if not frame_change:
                     for (x, y, w, h) in cars:
-                        img1 = cv2.rectangle(img1, (x, y), (x + w, y + h), (255, 0, 0), 2)
+                         img1 = cv2.rectangle(img1, (x, y), (x + w, y + h), (255, 0, 0), 2)
                     try:
                         if date_time != st("%d/%m/%Y-%X"):
                             with open("C:\\Users\Akshat\\Desktop\\occupied pump {}.txt".format(area[-1]), "a") as file:
