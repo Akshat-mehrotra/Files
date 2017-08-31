@@ -7,12 +7,12 @@ from time import strftime as st
 car_cascade = cv2.CascadeClassifier('other_files/cars.xml')  # define the cascade
 
 
-def init(cam_num, alt_feed, coordinates, area):
-    try:
-        feed = cv2.VideoCapture(cam_num)
-    finally:
-        feed = cv2.VideoCapture(alt_feed)
-        print('YOLO')
+def init(cam_num, coordinates, area):
+
+    feed = cv2.VideoCapture(cam_num)
+    # finally:
+    #     feed = cv2.VideoCapture(alt_feed)
+    #     print('YOLO')
     main(cam_num=cam_num, feed=feed, coordinates=coordinates, area=area)
 
 
@@ -20,24 +20,25 @@ def main(cam_num, feed, coordinates, area):
     second_frame = 0
     frames = []
     date_time = 0
+    img1 = 0
     while True:
 
         is_feed, img = feed.read()
         if is_feed:
             # print(type(coordinates[0]), type(coordinates[1]), type(coordinates[2]), type(coordinates[3]))
             try:
-                 img1 = img[coordinates[0]: coordinates[1], coordinates[2]:coordinates[3],]
+                img1 = img[coordinates[0]: coordinates[0]+coordinates[2], coordinates[1]:coordinates[1]+coordinates[3]]
             except IndexError:
-                 print('there was a index error while defining the ROI of the image so the full image has been taken')
-                 img1 = img
-            finally:
-                print('error dfsdafdsfsd')
+                print('there was a index error while defining the ROI of the image so the full image has been taken')
                 img1 = img
+            # finally:
+            #     print('error dfsdafdsfsd')
+            #     img1 = img
 
             th = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
 
-            cars = car_cascade.detectMultiScale(th, 1.14, 4)
-
+            cars = car_cascade.detectMultiScale(th, 1.04, 3)
+            print(type(img1))
             if len(cars) > 0 and second_frame != 2:
                 frames.append(cars[0])
 
@@ -50,9 +51,9 @@ def main(cam_num, feed, coordinates, area):
                          img1 = cv2.rectangle(img1, (x, y), (x + w, y + h), (255, 0, 0), 2)
                     try:
                         if date_time != st("%d/%m/%Y-%X"):
-                            with open("C:\\Users\Akshat\\Desktop\\occupied pump {}.txt".format(area[-1]), "a") as file:
+                            with open("C:/Users/Akshat/Desktop/occupied pump {}.txt".format(area[-1]), "a") as file:
                                 date_time = st("%d/%m/%Y-%X")
-                                file.write('{} : pump {} is occupied\n'.format(date_time, area[-1]))
+                                file.write('{} : pump {} is occupied by {}\n'.format(date_time, area[-1], len(cars)))
                                 # this is for debugging -> print('found {} cars'.format(len(frames)))
 
                     except:
