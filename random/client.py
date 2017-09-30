@@ -1,8 +1,9 @@
 import socket
 
+host '122.12.2.32'
 s = socket.socket()
-s.connnect(("It's ye boi", 1974))
-with open('movie.mp4', 'rb') as f:
+s.connect((host, 8080))
+with open('image.jpg', 'rb') as f:
     l = f.read(4000)
     while l:
         s.send(l)
