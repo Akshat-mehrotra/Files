@@ -7,7 +7,7 @@ s.listen(10)
 while True:
     sc, add = s.accept()
 
-    with open('somthing.mov', 'wb') as f:
+    with open('something.mp4', 'wb') as f:
         while True:
             l = sc.recv(4000)
             while l:
