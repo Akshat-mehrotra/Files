@@ -1,6 +1,6 @@
 import socket
 
-host '122.12.2.32'
+host = '122.12.2.32'
 s = socket.socket()
 s.connect((host, 8080))
 with open('image.jpg', 'rb') as f:
