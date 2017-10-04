@@ -1,0 +1,4 @@
+This folder tells if the pumps at a petrol pump are vacent, have a line or are occupied by one car 
+
+every pump gets its own thread and if there is no cam attatched it will use the video.avi file as the input
+there if no doccumentation coz what do u expect..........i isnt a pro 
