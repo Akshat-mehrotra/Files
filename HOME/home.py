@@ -3,11 +3,11 @@ from flask import render_template
 from flask import url_for
 from flask import request
 from flask import redirect
-#from servo import Servo
+from servo import Servo
 
 app = Flask(__name__)
 
-#main = Servo(pin=5)
+main = Servo(pin=5)
 
 @app.route('/')
 def index():
@@ -16,8 +16,8 @@ def index():
 
 @app.route("/main", methods=['POST'])
 def main():
-    #main.run()
-    #return redirect('/')
+    main.run()
+    return redirect('/')
     return 'LMAO ME DUDE'
 
 if __name__ == '__main__':
