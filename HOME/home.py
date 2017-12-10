@@ -4,21 +4,42 @@ from flask import url_for
 from flask import request
 from flask import redirect
 from servo import Servo
+from flask.ext.uploads import Uploadset, configure_uploads, ALL
+
 
 app = Flask(__name__)
 
-main = Servo(pin=5)
+mainDoor = Servo(pin=5)
 
-@app.route('/')
+upfile = UploadSet('file', ALL)
+app.config['UPLOADED_FILES_DEST'] = "/home/pi/uploaded_files"
+configure_uploads(app, upfile)
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    name = 'mainDoor'
-    return render_template('index.html', name=name)
 
-@app.route("/main", methods=['POST'])
-def main():
-    main.run()
+    if request.method == 'GET':
+        func = ['door',]
+        return render_template('index.html', func=func)
+
+    elif request.method == 'POST' and 'file' in request.files['file']:
+        filename = upfile.save(request.file['file'])
+
+        return '''<h1>DONE UPLOADING</h1>
+                <form action='/'>
+                    <input type='submit' value='GOBACK TO MAIN PAGE' style="height:120px; width:120px">
+                </form>'''
+
+
+@app.route("/maindoor", methods=['POST'])
+def door():
+    mainDoor.run()
     return redirect('/')
-    return 'LMAO ME DUDE'
+    
 
+
+@app.route('/upload')
+def upload():
+    pass
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port = 80, debug=True)
+    app.run(debug=True)
