@@ -1,3 +1,4 @@
+
 <!doctype html>
 <head><title>HOME</title></head>
 <body>
@@ -6,6 +7,9 @@
         <input type="submit" value="submit" style="height:120px; width:120px"/>
     </form>
 
+    <form action="url_for('browse')" align="left">
+        <input type="submit" value='browse media'/>
+    </form>
     <center><div>
         {% for i in func %}
         <form method="POST" action='{{ url_for(i) }}'>
