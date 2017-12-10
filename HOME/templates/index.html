@@ -1,21 +1,29 @@
 <!doctype html>
 <head><title>HOME</title></head>
 <body>
+    <form action="{{ url_for('index') }}">
+        <input type="file" name="file" value="browse files" style="height:120px; width:120px"/>
+        <input type="submit" value="submit" style="height:120px; width:120px"/>
+    </form>
+
     <center><div>
-        <form method="POST" action='{{ url_for('main') }}'>
-            <input type='submit' name='{{name}}' value="lmao"/>
+        {% for i in func %}
+        <form method="POST" action='{{ url_for(i) }}'>
+            <input type='submit' value='{{i}}' style="height:120px; width:120px"/>
 
         </form>
+        <br>
+        <br>
+        <br>
+        {% endfor %}
     </div></center>
     <script type="text/javascript">
-
     	async function sleep(ms){
     		await new Promise(resolve => setTimeout(resolve, ms));
     	}
-
     	window.onload = function() {
   			sleep(900);
-		}; 
+		};
     </script>
 </body>
 </html>
