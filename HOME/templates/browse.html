@@ -1,0 +1,15 @@
+<!doctype html>
+<head>
+	<title>BROWSE</title>
+</head>
+<body>
+	
+	{{% for i in files %}}
+
+	<form action='/browse/{{i}}'>
+		<input type="submit" name='{{i}}' style="height:120px; width:120px;" />
+	</form>
+
+	{{% endfor %}}
+</body>
+</html>
