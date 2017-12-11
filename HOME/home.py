@@ -9,12 +9,18 @@ import os
 
 app = Flask(__name__)
 
-direct = ''
+direct = '/home/pi/HOME/uploaded_files/'
+
+folders =  {"images":["jpg", 'jpeg', 'png'],
+            'excel':['xlsx',],
+            'others':['xml', 'html',],
+            'videos':[ 'mov', 'mp4', 'avi',]}
+
 
 mainDoor = Servo(pin=5)
 
 upfile = UploadSet('file', IMAGE)
-app.config['UPLOADED_FILES_DEST'] = "/home/pi/uploaded_files/"
+app.config['UPLOADED_FILES_DEST'] = "/home/pi/HOME/uploaded_files/"
 configure_uploads(app, upfile)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -27,9 +33,19 @@ def index():
 
 
     elif request.method == 'POST' and 'file' in request.files:
+        ext = request.files['file'].filename.split(".")[1]
+        
+        for k, v in folders.itteritems():
+            for i in v:
+                if ext == i: 
+                    ext = i
+                    break
+        
 
-        app.config['UPLOADED_FILES_DEST'] += request.files['file'].filename.split(".")[1]
+        app.config['UPLOADED_FILES_DEST'] += ext
         filename = upfile.save(request.files['file'])
+        app.config['UPLOADED_FILES_DEST'] = '/home/pi/HOME/uploaded_files/'
+
 
         return '''<h1>DONE UPLOADING</h1>
                 <form action='/'>
@@ -44,7 +60,7 @@ def door():
     
 
 @app.route("/browse/<path>")
-def browse(path=os.cwd()):
+def browse(path=''):
     
     direct += path
     if not os.path.isfile(direct):
@@ -52,7 +68,7 @@ def browse(path=os.cwd()):
         files = [f for f in os.listdir(direct)]
         return render_template('browse.html', files=files)
 
-    return "<img src='{{direct}}' height='500', width='500'>"
+    return send_file(direct, attachment_filename=path)
 
 
 if __name__ == '__main__':
